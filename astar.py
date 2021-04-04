@@ -75,7 +75,6 @@ class Graph:
     queue.append([root,0,[root]])
     visited.add(root)
     while (len(queue) != 0):
-      print(queue)
       fn = []
       if(queue[0][0] == target):
         break
