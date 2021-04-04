@@ -2,7 +2,7 @@ import math
 
 class Graph:
   def __init__(self):
-    self.components = {}
+    self.components = []
 
   def loadFile(self, filename):
     try:
@@ -40,34 +40,76 @@ class Graph:
               weight.append(self.euclideanDistance(coordinates[i],coordinates[j]))
             else:
               weight.append(0)
-          value = [coordinates[i],adj[i],weight]
-          self.components[nodes[i]] = value
+          value = [nodes[i],coordinates[i],adj[i],weight]
+          self.components.append(value)
+
     except:
       print("error: file not found")
+
+  def getCoordinate(self, key):
+    for value in self.components:
+      if (value[0] == key):
+        return value[1]
+  
+  def getComponent(self, key):
+    for value in self.components:
+      if (value[0] == key):
+        return value
 
   def euclideanDistance(self, startPosition, targetPosition):
     return math.sqrt( (startPosition[0]-targetPosition[0])**2 + (startPosition[1]-targetPosition[1])**2 )
 
-  def heuristic(self,current,target):
-    return self.euclideanDistance(self.components.get(current)[0],self.components.get(target)[0])
+  def straigthLineDistance(self, root):
+    hn = {}
+    for i in range(len(self.components)):
+      target = self.components[i][0]
+      hn[target] = self.euclideanDistance(self.getCoordinate(root),self.getCoordinate(target))
+    return hn
 
   def astar(self,root,target):
-    visited = set()
     queue = []
+    visited = set()
+    hn = self.straigthLineDistance(root)
 
+    queue.append([root,0,[root]])
     visited.add(root)
-    queue.append(root)
-    while (queue != 0):
-      current = root
-      fn = {}
-      if(queue[0] == target):
+    while (len(queue) != 0):
+      print(queue)
+      x = input()
+      fn = []
+      if(queue[0][0] == target):
         break
       else:
         # f(n) = g(n)+h(n)
-        for i in range(len(self.components.get(current)[1])):
-          fn[current] = self.components.get(current)[1][i]+ self.heuristic(current,target)
-        
-        # Sort
+        temp = []
+        current = self.getComponent(queue[0][0])
+        for i in range(len(current[3])):
+          # [Kota, Distance, Path]
+          path = []
+          for node in queue[0][2]:
+            path.append(node)
+          if (current[3][i] != 0 and self.components[i][0] not in visited):
+            nodeName = self.components[i][0] 
+            fn = queue[0][1]+current[3][i]+hn.get(nodeName)
+
+            path.append(nodeName)
+            temp.append([nodeName,fn,path])
+
+        if (len(temp) != 0):
+          # Sort & Choose Lowest f(n)
+          sorted(temp, key = lambda x: x[1])
+          queue.append(temp[0])
+          visited.add(temp[0][0])
+
+        queue.pop(0)
+    # {EOP : Ketemu target atau tidak}
+    # TEMP
+    if (len(queue) == 0):print("gak nemu")
+    else:
+      print("Jarak terdekat dari "+root+" ke "+target+" adalah ", end = "")
+      print(queue[0][1], end = "")
+      print(" dengan rute lintasan ", end="")
+      print(queue[0][2])
 
 g = Graph()
 filename = str(input("Masukkan nama file: "))
