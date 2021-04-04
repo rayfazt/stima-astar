@@ -10,6 +10,7 @@ class Graph:
       lines = f.readlines()
       for i in range(len(lines)):
         lines[i] = lines[i].replace("\n", "")
+      f.close()
           
       # Ambil jumlah simpul
       count_nodes = int(lines[0])
@@ -75,7 +76,6 @@ class Graph:
     visited.add(root)
     while (len(queue) != 0):
       print(queue)
-      x = input()
       fn = []
       if(queue[0][0] == target):
         break
