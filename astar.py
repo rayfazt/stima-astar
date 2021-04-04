@@ -10,6 +10,7 @@ class Graph:
       lines = f.readlines()
       for i in range(len(lines)):
         lines[i] = lines[i].replace("\n", "")
+      f.close()
           
       # Ambil jumlah simpul
       count_nodes = int(lines[0])
