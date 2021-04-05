@@ -1,4 +1,5 @@
 # Modul lain yang digunakan
+import os
 import math
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -8,8 +9,10 @@ class Graph:
     self.components = []
 
   def loadFile(self, filename):
+    cur_path = os.path.dirname(__file__)
+    fpath = os.path.join(cur_path, '../test/'+filename)
     try:
-      f = open(filename, 'r')
+      f = open(fpath, 'r')
       lines = f.readlines()
       for i in range(len(lines)):
         lines[i] = lines[i].replace("\n", "")
@@ -46,9 +49,12 @@ class Graph:
               weight.append(0)
           value = [nodes[i],coordinates[i],adj[i],weight]
           self.components.append(value)
+      
+      return True
 
     except:
       print("error: file not found")
+      return False
 
   def getCoordinate(self, key):
     for value in self.components:
@@ -140,12 +146,3 @@ class Graph:
     plt.axis("off")
     plt.tight_layout()
     plt.show()
-    print("Hello World")
-
-g = Graph()
-filename = str(input("Masukkan nama file: "))
-g.loadFile(filename)
-root = str(input("Masukkan simpul awal: "))
-target = str(input("Masukkan simpul target: "))
-g.astar(root, target)
-g.drawGraph()
