@@ -1,4 +1,7 @@
+# Modul lain yang digunakan
 import math
+import networkx as nx
+import matplotlib.pyplot as plt
 
 class Graph:
   def __init__(self):
@@ -110,9 +113,39 @@ class Graph:
       print(" dengan rute lintasan ", end="")
       print(queue[0][2])
 
+  def drawGraph(self):
+    G = nx.Graph()
+    nodePosition = {}
+    for i in range(len(self.components)):
+      # Masukkin posisi simpul
+      nodePosition[self.components[i][0]] = self.components[i][1]
+      for j in range(len(self.components[i][2])):
+        # Masukkin sisi
+        if (self.components[i][2][j]):
+          G.add_edge(self.components[i][0], self.components[j][0], weight=self.components[i][3][j])
+    
+    edge = [(u, v) for (u, v, d) in G.edges(data=True)]
+    
+    # nodes
+    nx.draw_networkx_nodes(G, nodePosition, node_size=700)
+
+    # edges
+    nx.draw_networkx_edges(G, nodePosition, edgelist=edge, width=6)
+
+    # labels
+    nx.draw_networkx_labels(G, nodePosition, font_size=20, font_family="sans-serif")
+
+    ax = plt.gca()
+    ax.margins(0.08)
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
+    print("Hello World")
+
 g = Graph()
 filename = str(input("Masukkan nama file: "))
 g.loadFile(filename)
 root = str(input("Masukkan simpul awal: "))
 target = str(input("Masukkan simpul target: "))
 g.astar(root, target)
+g.drawGraph()
