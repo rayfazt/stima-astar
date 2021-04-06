@@ -1,1 +1,17 @@
-Peta jalan sekitar Alun-alun Bandung
+8
+-6.921210 107.607689 SimpangTuguAsiaAfrika
+-6.921023 107.609848 MuseumAsiaAfrika
+-6.916968 107.609178 BragaCityWalk
+-6.923878 107.611800 MercureCityCentre
+-6.920395 107.600530 SudirmanStreetMarket
+-6.922503 107.607066 PendopoKota
+-6.917585 107.604353 PasarBaru
+-6.919173 107.615111 BatagorKingsley
+0 1 0 1 1 1 1 0
+1 0 1 1 0 0 0 0
+0 1 0 0 0 0 0 1
+1 1 0 0 0 1 0 0
+1 0 0 0 0 0 1 0
+1 0 0 1 0 0 0 0
+1 0 0 0 1 0 0 0
+0 0 1 0 0 0 0 0

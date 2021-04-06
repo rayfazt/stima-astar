@@ -1,3 +1,17 @@
-Peta jalan sekitar kampus ITB/Dago
-
-2 peta jalan lainnya untuk membantu pengujian
+8
+-6.893220 107.610454 JalanA
+-6.892613 107.610428 JalanB
+-6.892625 107.608842 JalanC
+-6.891049 107.608705 JalanD
+-6.891012 107.610386 JalanE
+-6.890995 107.611570 JalanF
+-6.892568 107.611680 JalanG
+-6.889913 107.610374 JalanH
+0 1 0 0 0 0 0 0
+1 0 1 0 1 0 1 0
+0 1 0 1 0 0 0 0
+0 0 1 0 1 0 0 0
+0 1 0 1 0 1 0 1
+0 0 0 0 1 0 1 0
+0 1 0 0 0 1 0 0
+0 0 0 0 1 0 0 0
