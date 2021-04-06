@@ -6,9 +6,9 @@ def main():
   if (g.loadFile(filename)):
     root = str(input("Masukkan simpul awal: "))
     target = str(input("Masukkan simpul target: "))
-    #g.astar(root, target)
-    g.astarHaversine(root, target)
-    g.drawGraph()
+    result = g.astar(root, target)
+    #print(result)
+    g.drawGraph(result)
 
 if __name__ == "__main__":
   main()

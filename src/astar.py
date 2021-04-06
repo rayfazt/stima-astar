@@ -97,54 +97,13 @@ class Graph:
   def astar(self,root,target):
     queue = []
     visited = set()
-    hn = self.straightLineDistance(root)
-
-    queue.append([root,0,[root]])
-    visited.add(root)
-    while (len(queue) != 0):
-      fn = []
-      if(queue[0][0] == target):
-        break
-      else:
-        # f(n) = g(n)+h(n)
-        temp = []
-        current = self.getComponent(queue[0][0])
-        for i in range(len(current[3])):
-          # [Kota, Distance, Path]
-          path = []
-          for node in queue[0][2]:
-            path.append(node)
-          if (current[3][i] != 0 and self.components[i][0] not in visited):
-            nodeName = self.components[i][0] 
-            fn = queue[0][1]+current[3][i]+hn.get(nodeName)
-
-            path.append(nodeName)
-            temp.append([nodeName,fn,path])
-
-        if (len(temp) != 0):
-          # Sort & Choose Lowest f(n)
-          sorted(temp, key = lambda x: x[1])
-          queue.append(temp[0])
-          visited.add(temp[0][0])
-
-        queue.pop(0)
-    # {EOP : Ketemu target atau tidak}
-    # TEMP
-    if (len(queue) == 0):print("gak nemu")
-    else:
-      print("Jarak terdekat dari "+root+" ke "+target+" adalah ", end = "")
-      print(queue[0][1], end = "")
-      print(" dengan rute lintasan ", end="")
-      print(queue[0][2])
-  
-  def astarHaversine(self,root,target):
-    queue = []
-    visited = set()
+    #hn = self.straightLineDistance(root)
     hn = self.sphericalDistance(root)
 
     queue.append([root,0,[root]])
     visited.add(root)
     while (len(queue) != 0):
+      #print(queue)
       fn = []
       if(queue[0][0] == target):
         break
@@ -180,27 +139,97 @@ class Graph:
       print(" dengan rute lintasan ", end="")
       print(queue[0][2])
 
-  def drawGraph(self):
+    return queue
+  
+  # def astarHaversine(self,root,target):
+  #   queue = []
+  #   visited = set()
+  #   hn = self.sphericalDistance(root)
+
+  #   queue.append([root,0,[root]])
+  #   visited.add(root)
+  #   while (len(queue) != 0):
+  #     fn = []
+  #     if(queue[0][0] == target):
+  #       break
+  #     else:
+  #       # f(n) = g(n)+h(n)
+  #       temp = []
+  #       current = self.getComponent(queue[0][0])
+  #       for i in range(len(current[3])):
+  #         # [Kota, Distance, Path]
+  #         path = []
+  #         for node in queue[0][2]:
+  #           path.append(node)
+  #         if (current[3][i] != 0 and self.components[i][0] not in visited):
+  #           nodeName = self.components[i][0] 
+  #           fn = queue[0][1]+current[3][i]+hn.get(nodeName)
+
+  #           path.append(nodeName)
+  #           temp.append([nodeName,fn,path])
+
+  #       if (len(temp) != 0):
+  #         # Sort & Choose Lowest f(n)
+  #         sorted(temp, key = lambda x: x[1])
+  #         queue.append(temp[0])
+  #         visited.add(temp[0][0])
+
+  #       queue.pop(0)
+  #   # {EOP : Ketemu target atau tidak}
+  #   # TEMP
+  #   if (len(queue) == 0):print("gak nemu")
+  #   else:
+  #     print("Jarak terdekat dari "+root+" ke "+target+" adalah ", end = "")
+  #     print(queue[0][1], end = "")
+  #     print(" dengan rute lintasan ", end="")
+  #     print(queue[0][2])
+  #   return queue
+
+  def drawGraph(self, result):
     G = nx.Graph()
     nodePosition = {}
+
+    path = []
+    for i in range(len(result[0][2]) - 1):
+      path.append((result[0][2][i], result[0][2][i+1]))
+      path.append((result[0][2][i+1], result[0][2][i]))
+    
     for i in range(len(self.components)):
       # Masukkin posisi simpul
       nodePosition[self.components[i][0]] = self.components[i][1]
       for j in range(len(self.components[i][2])):
         # Masukkin sisi
         if (self.components[i][2][j]):
-          G.add_edge(self.components[i][0], self.components[j][0], weight=self.components[i][3][j])
+          if(self.components[i][0], self.components[j][0]) in path:
+            color = "red"
+          else:
+            color = "black"
+
+          G.add_edge(self.components[i][0], self.components[j][0], weight=self.components[i][3][j], color=color)
     
-    edge = [(u, v) for (u, v, d) in G.edges(data=True)]
-    
-    # nodes
-    nx.draw_networkx_nodes(G, nodePosition, node_size=700)
+    #edge = [(u, v) for (u, v, d) in G.edges(data=True)]
+    colorNode = []
+    for node in G:
+      if node in result[0][2]:
+        colorNode.append("blue")
+      else:
+        colorNode.append("white")
+
+    options = {
+        "with_labels": True,
+        "node_color": colorNode,
+        "edge_color": [G[i][j]["color"] for i,j in G.edges()],
+        "edgecolors": "black"
+    }
+
+    # draw
+    nx.draw_networkx(G, nodePosition, **options)
 
     # edges
-    nx.draw_networkx_edges(G, nodePosition, edgelist=edge, width=6)
+    #nx.draw_networkx_edges(G, nodePosition, edgelist=edge, width=6)
 
     # labels
-    nx.draw_networkx_labels(G, nodePosition, font_size=20, font_family="sans-serif")
+    nx.draw_networkx_labels(G, nodePosition, font_size=10, font_family="sans-serif")
 
     ax = plt.gca()
     ax.margins(0.08)
