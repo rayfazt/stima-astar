@@ -36,7 +36,8 @@ class Graph:
         dot = lines[i].split(" ")
         tmp = []
         for val in dot:
-          tmp.append(int(val))
+          #tmp.append(int(val))
+          tmp.append(float(val))
         adj.append(tmp)
           
       for i in range(count_nodes):
@@ -135,8 +136,8 @@ class Graph:
     if (len(queue) == 0):print("gak nemu")
     else:
       print("Jarak terdekat dari "+root+" ke "+target+" adalah ", end = "")
-      print(queue[0][1], end = "")
-      print(" dengan rute lintasan ", end="")
+      print('%.2f'%queue[0][1], end = "")
+      print(" km dengan rute lintasan ", end="")
       print(queue[0][2])
 
     return queue
