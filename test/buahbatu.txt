@@ -1,1 +1,17 @@
-Peta jalan sekitar Buahbatu
+8
+-6.940351 107.658245 SimpangSoeHattaMTC
+-6.939252 107.663915 SimpangRancabolangSoeHatta
+-6.943234 107.663564 BormaRancabolang 
+-6.942138 107.652719 SimpangCidurianSelSoeHatta 
+-6.955690 107.654484 SimpangCidurianSelCiwastra 
+-6.956029 107.662112 RSIAHarapanBunda 
+-6.954222 107.639885 MasjidBuahBatu 
+-6.946367 107.641756 CarrefourKiaracondong 
+0 1 0 1 0 0 0 0
+1 0 1 0 0 0 0 0
+0 1 0 0 0 1 0 0
+1 0 0 0 1 0 0 1
+0 0 0 1 0 1 1 0
+0 0 1 0 1 0 0 0
+0 0 0 0 1 0 0 1
+0 0 0 1 0 0 1 0

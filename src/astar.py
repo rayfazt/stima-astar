@@ -1,6 +1,6 @@
 # Modul lain yang digunakan
 import os
-import math
+from math import *
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -29,7 +29,7 @@ class Graph:
       coordinates = []
       for i in range(1, count_nodes + 1):
         dot = lines[i].split(" ")
-        coordinates.append((int(dot[0]), int(dot[1])))
+        coordinates.append((float(dot[0]), float(dot[1])))
       # Ambil adjacent list
       adj = []
       for i in range(count_nodes + 1, len(lines)):
@@ -44,7 +44,8 @@ class Graph:
           weight = []
           for j in range(count_nodes):
             if (adj[i][j]):
-              weight.append(self.euclideanDistance(coordinates[i],coordinates[j]))
+              #weight.append(self.euclidean(coordinates[i],coordinates[j]))
+              weight.append(self.haversine(coordinates[i],coordinates[j]))
             else:
               weight.append(0)
           value = [nodes[i],coordinates[i],adj[i],weight]
@@ -53,7 +54,8 @@ class Graph:
       return True
 
     except:
-      print("error: file not found")
+      #print("error: file not found")
+      raise
       return False
 
   def getCoordinate(self, key):
@@ -66,20 +68,79 @@ class Graph:
       if (value[0] == key):
         return value
 
-  def euclideanDistance(self, startPosition, targetPosition):
-    return math.sqrt( (startPosition[0]-targetPosition[0])**2 + (startPosition[1]-targetPosition[1])**2 )
+  def euclidean(self, startPosition, targetPosition):
+    return sqrt( (startPosition[0]-targetPosition[0])**2 + (startPosition[1]-targetPosition[1])**2 )
 
-  def straigthLineDistance(self, root):
+  def straightLineDistance(self, root):
     hn = {}
     for i in range(len(self.components)):
       target = self.components[i][0]
-      hn[target] = self.euclideanDistance(self.getCoordinate(root),self.getCoordinate(target))
+      hn[target] = self.euclidean(self.getCoordinate(root),self.getCoordinate(target))
+    return hn
+  
+  # distance in a spherical object, such as Earth, uses haversine formula
+  # https://en.wikipedia.org/wiki/Haversine_formula
+  def haversine(self, startPosition, targetPosition):
+    r = 6378  # earth radius in equator (kilometer)
+    p1 = pi/180 * (targetPosition[0] - startPosition[0])
+    p2 = pi/180 * (targetPosition[1] - startPosition[1])
+    d = 2 * r * asin(sqrt(sin(p1/2)**2 + cos((pi/180)*targetPosition[0]) * cos((pi/180)*startPosition[0]) * sin(p2/2)**2))
+    return d
+
+  def sphericalDistance(self, root):
+    hn = {}
+    for i in range(len(self.components)):
+      target = self.components[i][0]
+      hn[target] = self.haversine(self.getCoordinate(root),self.getCoordinate(target))
     return hn
 
   def astar(self,root,target):
     queue = []
     visited = set()
-    hn = self.straigthLineDistance(root)
+    hn = self.straightLineDistance(root)
+
+    queue.append([root,0,[root]])
+    visited.add(root)
+    while (len(queue) != 0):
+      fn = []
+      if(queue[0][0] == target):
+        break
+      else:
+        # f(n) = g(n)+h(n)
+        temp = []
+        current = self.getComponent(queue[0][0])
+        for i in range(len(current[3])):
+          # [Kota, Distance, Path]
+          path = []
+          for node in queue[0][2]:
+            path.append(node)
+          if (current[3][i] != 0 and self.components[i][0] not in visited):
+            nodeName = self.components[i][0] 
+            fn = queue[0][1]+current[3][i]+hn.get(nodeName)
+
+            path.append(nodeName)
+            temp.append([nodeName,fn,path])
+
+        if (len(temp) != 0):
+          # Sort & Choose Lowest f(n)
+          sorted(temp, key = lambda x: x[1])
+          queue.append(temp[0])
+          visited.add(temp[0][0])
+
+        queue.pop(0)
+    # {EOP : Ketemu target atau tidak}
+    # TEMP
+    if (len(queue) == 0):print("gak nemu")
+    else:
+      print("Jarak terdekat dari "+root+" ke "+target+" adalah ", end = "")
+      print(queue[0][1], end = "")
+      print(" dengan rute lintasan ", end="")
+      print(queue[0][2])
+  
+  def astarHaversine(self,root,target):
+    queue = []
+    visited = set()
+    hn = self.sphericalDistance(root)
 
     queue.append([root,0,[root]])
     visited.add(root)
