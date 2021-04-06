@@ -2,7 +2,7 @@
 Implementasi Algoritma A* untuk Menentukan Lintasan Terpendek
 
 ## Deskripsi Singkat
-Program ini dapat menentukan lintasan terpendek dari suatu titik ke titik lain menggunakan prinsip algoritma A* (A star). Program menerima input berupa file berisi jumlah sipul, koordinat masing-masing simpul, dan matriks ketetanggaan. Setelah itu, program akan meminta masukan simpul awal dan simpul tujuan kemudian menampilkan hasil pencarian rute beserta visualisasinya menggunakan graf/peta.
+Program ini dapat menentukan lintasan terpendek dari suatu titik ke titik lain menggunakan prinsip algoritma A* (A star). Program menerima input berupa file berisi jumlah sipul, koordinat masing-masing simpul, dan matriks ketetanggaan berbobot. Setelah itu, program akan meminta masukan simpul awal dan simpul tujuan kemudian menampilkan hasil pencarian rute beserta visualisasinya menggunakan graf/peta.
 
 Contoh input file graf adalah :
 ```
@@ -19,18 +19,18 @@ Contoh input file graf adalah :
 -6.893780 107.613036 J
 -6.894759 107.611723 K
 -6.894883 107.608839 L
-0 1 0 1 0 0 0 0 0 0 0 0
-1 0 1 1 0 0 0 0 0 0 0 0
-0 1 0 0 1 0 0 0 0 0 0 0
-1 1 0 0 1 1 0 0 0 0 0 0
-0 0 1 1 0 0 0 0 0 1 0 0
-0 0 0 1 0 0 1 0 0 0 0 0
-0 0 0 0 0 1 0 1 0 0 0 1
-0 0 0 0 0 0 1 0 1 0 0 0
-0 0 0 0 0 0 0 1 0 1 1 0
-0 0 0 0 1 0 0 0 1 0 0 0
-0 0 0 0 0 0 0 0 1 0 0 1
-0 0 0 0 0 0 1 0 0 0 1 0
+0 0.17686726502403394 0 0.2632517439789043 0 0 0 0 0 0 0 0
+0.17686726502403394 0 0.07946859144593632 0.28192895069042706 0 0 0 0 0 0 0 0
+0 0.07946859144593632 0 0 0.23737731468051107 0 0 0 0 0 0 0
+0.2632517439789043 0.28192895069042706 0 0 0.22933116685049545 0.3665819638890329 0 0 0 0 0 0
+0 0 0.23737731468051107 0.22933116685049545 0 0 0 0 0 0.7145925075720253 0 0
+0 0 0 0.3665819638890329 0 0 0.6650237807660428 0 0 0 0 0
+0 0 0 0 0 0.6650237807660428 0 0.23232125564821227 0 0 0 0.11943352380600843
+0 0 0 0 0 0 0.23232125564821227 0 0.17062232500909322 0 0 0
+0 0 0 0 0 0 0 0.17062232500909322 0 0.12224166728949747 0.13076103083345564 0
+0 0 0 0 0.7145925075720253 0 0 0 0.12224166728949747 0 0 0
+0 0 0 0 0 0 0 0 0.13076103083345564 0 0 0.3190155925057135
+0 0 0 0 0 0 0.11943352380600843 0 0 0 0.3190155925057135 0
 ```
 Bobot graf menyatakan jarak antar simpul yang dihitung dengan rumus jarak Euclidean. Nilai heuristik yang dipakai didapat dari jarak garis lurus antara suatu simpul ke tujuan.
 
