@@ -37,7 +37,6 @@ Bobot graf menyatakan jarak antar simpul yang dihitung dengan rumus jarak Euclid
 
 ## Requirements
 * Python 3.7 or higher (not tested on older Python version)
-* Pip package installer for Python, biasanya sudah bawaan dari instalasi Python
 
 ## Instalasi & Cara Penggunaan
 * Clone repository:
