@@ -110,7 +110,6 @@ class Graph:
         break
       else:
         # f(n) = g(n)+h(n)
-        temp = []
         current = self.getComponent(queue[0][0])
         for i in range(len(current[3])):
           # [Kota, Distance, Path]
@@ -122,15 +121,15 @@ class Graph:
             fn = queue[0][1]+current[3][i]+hn.get(nodeName)
 
             path.append(nodeName)
-            temp.append([nodeName,fn,path])
-
-        if (len(temp) != 0):
-          # Sort & Choose Lowest f(n)
-          sorted(temp, key = lambda x: x[1])
-          queue.append(temp[0])
-          visited.add(temp[0][0])
+            queue.append([nodeName,fn,path])
 
         queue.pop(0)
+        if (len(queue) != 0):
+          # Sort & Choose Lowest f(n)
+          sorted(queue, key = lambda x: x[1])
+          visited.add(queue[0][0])
+
+        
     # {EOP : Ketemu target atau tidak}
     # TEMP
     if (len(queue) == 0):print("gak nemu")
@@ -139,8 +138,7 @@ class Graph:
       print('%.2f'%queue[0][1], end = "")
       print(" km dengan rute lintasan ", end="")
       print(queue[0][2])
-
-    return queue
+      return queue
   
   # def astarHaversine(self,root,target):
   #   queue = []
