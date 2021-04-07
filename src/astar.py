@@ -164,7 +164,7 @@ class Graph:
     nx.draw_networkx(G, nodePosition, **options)
 
     # labels node & edge target
-    nx.draw_networkx_labels(G, nodePosition, font_size=10, font_family="sans-serif")
+    nx.draw_networkx_labels(G, nodePosition)
     nx.draw_networkx_edge_labels(G,nodePosition,edge_labels=labels,font_size = 8)
     
     # show graph
