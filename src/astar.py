@@ -44,7 +44,7 @@ class Graph:
         if (nodes[i] not in self.components):
           weight = []
           for j in range(count_nodes):
-            if (adj[i][j]):
+            if (adj[i][j] != 0):
               #weight.append(self.euclidean(coordinates[i],coordinates[j]))
               weight.append(self.haversine(coordinates[i],coordinates[j]))
             else:
@@ -207,7 +207,9 @@ class Graph:
             color = "black"
 
           G.add_edge(self.components[i][0], self.components[j][0], weight=self.components[i][3][j], color=color)
-    
+
+    # Nampilin jarak           
+    # G.add_edge(result[0][2][0], result[0][2][-1], weight='%.2f'%result[0][1], color="green")
     #edge = [(u, v) for (u, v, d) in G.edges(data=True)]
     colorNode = []
     for node in G:
@@ -231,9 +233,12 @@ class Graph:
 
     # labels
     nx.draw_networkx_labels(G, nodePosition, font_size=10, font_family="sans-serif")
-
+    
+    t = "Jarak terdekat dari "+result[0][2][0]+" ke "+result[0][2][-1]+" adalah "'%.2f'%result[0][1]+" km"
+    
     ax = plt.gca()
     ax.margins(0.08)
     plt.axis("off")
     plt.tight_layout()
+    plt.text(0.5,0.5,t,ha='center',va='center',transform=ax.transAxes)
     plt.show()
