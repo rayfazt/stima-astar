@@ -3,12 +3,18 @@ from astar import *
 def main():
   g = Graph()
   filename = str(input("Masukkan nama file: "))
-  if (g.loadFile(filename)):
+  try:
+    g.loadFile(filename)
     root = str(input("Masukkan simpul awal: "))
     target = str(input("Masukkan simpul target: "))
-    result = g.astar(root, target)
-    #print(result)
-    g.drawGraph(result)
+    try:
+      result = g.astar(root, target)
+      g.drawGraph(result)
+    except:
+      print("Tidak terdapat graf dengan simpul yang telah dimasukkan")
+  except:
+    print("File tidak ditemukan")
+      
 
 if __name__ == "__main__":
   main()
